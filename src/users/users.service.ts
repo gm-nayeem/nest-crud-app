@@ -7,12 +7,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
-export class UsersService { 
+export class UsersService {
   // inject user repository
-  constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
+  constructor(
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+  ) {}
 
-  create(createUserDto: CreateUserDto) : Promise<User> {
-    const user:User = new User();
+  create(createUserDto: CreateUserDto): Promise<User> {
+    const user: User = new User();
 
     user.fullName = createUserDto.fullName;
     user.email = createUserDto.email;
@@ -22,15 +24,17 @@ export class UsersService {
   }
 
   findAll(): Promise<User[]> {
-    return this.userRepository.find();
+    return this.userRepository.find({
+      relations: ['profile', 'posts'],
+    });
   }
 
   findOne(id: number) {
     return this.userRepository.findOneById(id);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) { 
-    const user:User = new User();
+  update(id: number, updateUserDto: UpdateUserDto) {
+    const user: User = new User();
 
     user.fullName = updateUserDto.fullName;
     user.email = updateUserDto.email;

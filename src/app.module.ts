@@ -3,9 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { AppService } from './app.service';
+import { PostModule } from './post/post.module';
 import { AppController } from './app.controller';
 import { UsersModule } from './users/users.module';
 import { ReportsModule } from './reports/reports.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -29,7 +31,9 @@ import { ReportsModule } from './reports/reports.module';
       inject: [ConfigService],
     }),
     UsersModule,
-    ReportsModule
+    ProfileModule,
+    PostModule,
+    ReportsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
